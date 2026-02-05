@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
 
     // tricky jump
     lseek(fd, patch_location, SEEK_SET);
-    write(fd, (uint8_t[]){0x68, 0x30, 0x12, 0x40, 0x00, 0xc3}, 6);
+    write(fd, (uint8_t[]){0x68, 0x10, 0x14, 0x40, 0x00, 0xc3}, 6);
 
     close(fd);
     return 0;
