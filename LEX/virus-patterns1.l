@@ -11,11 +11,13 @@ int virus_found = 0;
 \x68[\x00-\xFF]{4}\xc3    {
     name = "Tricky jump";
     virus_found = 1;
+    yyterminate();
 }
 
 \x48\x8D\x35[\x00-\xFF]{4}\xBC[\x00-\xFF]{4}\x31\x26(\x31\x66[\x00-\xFF]){0,10}\x48\x83\xC6[\x00-\xFF]\x83\xEC[\x00-\xFF]\x75     {
     name = "Encrypted virus";
     virus_found = 1;
+    yyterminate();
 }
 
 .|\n    {

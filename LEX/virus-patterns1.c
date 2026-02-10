@@ -768,31 +768,33 @@ YY_RULE_SETUP
 {
     name = "Tricky jump";
     virus_found = 1;
+    yyterminate();
 }
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 16 "virus-patterns1.l"
+#line 17 "virus-patterns1.l"
 {
     name = "Encrypted virus";
     virus_found = 1;
+    yyterminate();
 }
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 21 "virus-patterns1.l"
+#line 23 "virus-patterns1.l"
 {
     location += 1;
 };
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 26 "virus-patterns1.l"
+#line 28 "virus-patterns1.l"
 ECHO;
 	YY_BREAK
-#line 796 "virus-patterns1.c"
+#line 798 "virus-patterns1.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1797,7 +1799,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 26 "virus-patterns1.l"
+#line 28 "virus-patterns1.l"
 
 
 int main(void) {
