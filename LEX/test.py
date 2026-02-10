@@ -31,19 +31,17 @@ def runTests(msg, path, executable):
                     [executable],
                     stdin=f,
                     stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
-                    text=True
+                    stderr=subprocess.PIPE
                 )
         except Exception as e:
             print(f"[ERROR] Could not run on {fname}: {e}")
             continue
 
         # Print results
-        print(f"\nFile: {fname}")
-        print("Exit code:", result.returncode)
         if result.stdout.strip():
-            print("Output:")
-            print(result.stdout.strip())
+            print(f"File: {fname}. Output: {result.stdout.strip()}")
+        else:
+            print(f"File: {fname}. No output")
         if result.stderr.strip():
             print("Errors:")
             print(result.stderr.strip())
@@ -68,14 +66,15 @@ def main():
         ["Running against trivial encrypted virus files...", './samples/e/trivial/'],
         ["Running against actual encrypted virus files...", './samples/e/actual/'],
         ["Running against false positive file...", './samples/false-pos/'],
-        ["Running against trivial no positive files...", './samples/n/trivial/'],
+        ["Running against random no positive files...", './samples/n/random/'],
         ["Running against actual no positive files...", './samples/n/actual/'],
         ["Running against trivial tricky jump files...", './samples/t/trivial/'],
-        ["Running against actual tricky jump files...", './samples/t/trivial/']
+        ["Running against actual tricky jump files...", './samples/t/actual/']
     ]
 
     for msg, path in paths:
         runTests(msg, path, executable)
+
 
 
 if __name__ == "__main__":
