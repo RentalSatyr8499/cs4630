@@ -47,10 +47,27 @@ def runTests(msg, path, executable):
             print(result.stderr.strip())
 
 
+import subprocess
+import sys
+
 def main():
-    # Build the scanner first
-    print("Running make...")
-    make = subprocess.run(["make"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    # Determine which make target to run
+    target = "2"   # default
+    if len(sys.argv) > 1:
+        if sys.argv[1] in ("1", "2"):
+            target = sys.argv[1]
+        else:
+            print(f"[ERROR] Unknown target '{sys.argv[1]}'. Use 1 or 2.")
+            sys.exit(1)
+
+    print(f"Running make {target}...")
+    make = subprocess.run(
+        ["make", target],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True
+    )
+
     print(make.stdout)
     if make.returncode != 0:
         print("[ERROR] make failed:")
