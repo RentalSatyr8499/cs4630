@@ -1,0 +1,33 @@
+open rop-gadget: 
+source ~/rop-venv/bin/activate
+
+
+00401a20 f3 0f 1e fa     ENDBR64
+00401a24 41 54           PUSH       R12
+00401a26 31 c0           XOR        EAX,EAX
+00401a28 55              PUSH       RBP
+00401a29 48 89 fd        MOV        RBP,defaultGrade
+00401a2c 48 8d 3d        LEA        defaultGrade,[DAT_00499014]                      = 25h    %
+            e1 75 09 00
+00401a33 48 81 ec        SUB        RSP,0x3f8
+            f8 03 00 00
+00401a3a 48 c7 c6        MOV        RSI,gets
+            f0 27 41 00
+00401a41 4c 8d 64        LEA        R12=>name,[RSP + 0x8]
+            24 08
+00401a46 e8 d5 9e        CALL       printf                                           int printf(char * __format, ...)
+            00 00
+00401a4b 48 8d 3d        LEA        defaultGrade,[s_Name:_00499018]                  = "Name: "
+            c6 75 09 00
+00401a52 31 c0           XOR        EAX,EAX
+00401a54 e8 c7 9e        CALL       printf                                           int printf(char * __format, ...)
+            00 00
+00401a59 48 8b 3d        MOV        defaultGrade=>_IO_2_1_stdout_,qword ptr [->_IO   = FBAD2084h
+            50 5d 0c 00                                                                 = 004c7400
+00401a60 e8 fb 05        CALL       fflush                                           int fflush(FILE * __stream)
+            01 00
+00401a65 4c 89 e7        MOV        defaultGrade,R12
+00401a68 e8 83 0d        CALL       gets                                             char * gets(char * __s)
+            01 00
+
+1024 = 8 bytes (r12) + 8 bytes (rbp) + 1016 bytes (see line 0x00401a33) - 8 bytes (see line 00401a41, name[1000] actually started 8 bytes after the space on the stack allocate for it, because the compiler wants to keep the stack pointer 16-byte aligned)
