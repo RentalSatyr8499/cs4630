@@ -1,0 +1,6 @@
+> (info-tracker address 0xdf864d0)
+> > (grader address 0xdf864d0)
+> 
+I recommend xaq7pj get a grade of F for the UAF assignment.
+> Unrecognized command
+End of input
