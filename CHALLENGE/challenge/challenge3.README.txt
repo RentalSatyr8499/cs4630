@@ -1,0 +1,30 @@
+- This challenge is a program that accepts and executes a function written in machine
+  code. It then outputs the return value of this function as an integer.
+
+- This challenge uses end-of-file to know when its input is complete. For this reason,
+  it is easier to have your attack program not attempt to read the program's output
+  directly (as in ROP). Instead, you could run your attack program by sending its
+  output to a temporary file, then pass that temporary file as input to the challenge:
+
+       python3 your_attack.py >tmpfile
+       ./challenge <tmpfile
+
+- You can see an example of using this to calculate 5 factorial in the example.py file;
+  I would recommend using that as the basis of your solution.
+
+- The machine code is checked with a scanner, similar to the LEX assignment before it
+  runs. This scanner checks for:
+  - SYSCALL, INT $80 --- instructions to make system calls
+  - 0x40 --- the most significant non-zero byte of executable memory addresses in the program
+  - "Con" --- the beginning of the "Congratualtions string"
+
+- It may be helpful to look over the options for writing shellcode from the OVER
+  assingment, especially the strategies for avoiding including a newline in the
+  shellcode.
+
+- The region of memory used to execute the machine code is writeable and executable. So
+  you can write machine code that edits later machine code.
+
+- The challenge executable is statically linked using a smaller libc than the normal
+  one that comes with Linux to make it smaller. (This means that the executable is
+  small enough that all the code addresses the executable normally uses contain a 0x40.)

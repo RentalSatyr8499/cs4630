@@ -1,0 +1,5 @@
+- The executable is compiled with non-executable stacks and is statically linked.
+
+- After stating, the executable enables seccomp's strict mode, which only allows the
+  read, write, sigreturn, and exit system calls. This prevents, for example,
+  the executable from running a shell.

@@ -1,0 +1,12 @@
+* This program is very similar to the programs in the UAF assignment.
+* Unlike the UAF assignment, you won't be to trigger existing code that prints out the "Congratulations" message
+* The executable contains a gadget which can be used to copy the value of %eax (bottom 32 bits of %rax)
+  into the stack pointer:
+
+        mov esp, eax ; mov rax, r12 ; pop r12 ; ret
+
+  (or in AT&T syntax
+
+        mov %eax, %esp ; mov %r12, %rax ; pop %r12; ret
+
+  )

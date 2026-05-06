@@ -1,0 +1,7 @@
+- The vulnerable function is read_number.
+
+- Overflowing the buffer in `gets` in read_number overwrites a pointer value.
+
+- main uses the global variable `print_challenge_message`, which is a function pointer, to determine how to print the message about whether the challenge was passed.
+
+- `sscanf("123foo", "%d", &n)` will write `123` into `n`, ignoring the extraneous `foo` in its input
